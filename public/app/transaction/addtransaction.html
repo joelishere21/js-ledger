@@ -1,0 +1,41 @@
+
+<form role="form">
+    <legend>Add Transaction</legend>
+
+    <div class="form-group">
+        <label for="transactionDate">Transaction Date</label>
+        <input type="text" class="form-control" id="transactionDate" ng-model="transaction.Date" placeholder="YYYY/MM/DD" style="width: 200px;" />
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="cleared" ng-model="transaction.Cleared" /> <span style="font-weight: bold;">Cleared?</span>
+        </label>
+    </div>
+    <div class="form-group">
+        <label for="payee">Payee</label>
+        <input type="text" class="form-control" id="payee" ng-model="transaction.Payee" placeholder="Payee" />
+    </div>
+    <div class="row" ng-repeat="expense in transaction.Expenses">
+        <div class="col-md-6">
+            <label for="expense">Expense</label>
+            <input name="expense" type="text" class="form-control" ng-model="expense.Category" placeholder="Expense" />
+        </div>
+        <div class="col-md-6">
+            <label for="amount">Amount</label>
+            <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input type="text" class="form-control" ng-model="expense.Amount" aria-label="Amount" placeholder="Amount" />
+                <!--<span class="input-group-addon">.00</span>-->
+                <span class="input-group-btn">
+                    <button class="btn btn-default" ng-click="addExpense()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="account">Account</label>
+        <input id="account" type="text" class="form-control" ng-model="transaction.Account" placeholder="Account">
+    </div>    
+
+    <button id="btnSubmit" type="button" class="btn btn-primary" ng-click="onSubmit()">Submit</button>
+</form>

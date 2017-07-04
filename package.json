@@ -1,0 +1,22 @@
+{
+  "name": "jsledger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Joel Schmidt",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "fs": "0.0.1-security",
+    "ledger-cli": "^0.2.0",
+    "path": "^0.12.7",
+    "stream": "0.0.2"
+  },
+  "devDependencies": {
+    "morgan": "^1.8.2"
+  }
+}
