@@ -61,3 +61,4 @@ typings/
 routes/auto-trans-routes.js
 ledger.dat
 *.bak
+config.js

@@ -1,25 +1,10 @@
-var Ledger = require('ledger-cli').Ledger;
-var logger = require('morgan');
+var app = require('./server/setup');
 
-var express = require("express");
-var path = require('path');
-var bodyParser = require('body-parser');
-
-var Ledger = require('ledger-cli').Ledger;
-var ledger = new Ledger({ file: 'ledger.dat' });
-
-var autoTransRoutes = require("./routes/auto-trans-routes");
-
-var app = express();
-
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+//console.log(__dirname);
 
 app.get('/api/accounts', function (req, res) {
 	var results = [];
-	ledger.accounts().on('data', function(account) {
+	req.ledger.accounts().on('data', function(account) {
 		results.push(account);
   })
   .once('end', function () {
@@ -217,8 +202,6 @@ app.post('/api/transaction', function (req, res) {
 	});
 
 });
-
-autoTransRoutes(app);
 
 // Always send index.html because this is a SPA. This helps with Angular Routing.
 app.use(function(req, res) {

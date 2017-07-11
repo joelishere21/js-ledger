@@ -82,7 +82,9 @@
 
             $http.get('/api/account/balance').then(function (res) {
                 $scope.accountBalances = $filter('filter')(res.data, function (value, index, array) {
-                    return value.account.fullname.indexOf('Assets:') >= 0 && value.account.fullname.indexOf('Assets:Funds') < 0;
+                    return value.account.fullname.indexOf('Assets:') >= 0 
+                        && value.account.fullname.indexOf('Assets:Funds') < 0
+                        && value.account.fullname.indexOf('Assets:Spending') < 0;
                 });
                 $scope.liabilityBalances = $filter('filter')(res.data, function (value, index, array) {
                     return value.account.fullname.indexOf('Liabilities:') >= 0 && value.account.fullname.indexOf('Liabilities:Funds') < 0;
