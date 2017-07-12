@@ -112,10 +112,14 @@
                 $scope.balances = res.data;
             });
         }])
-        .controller('CurrentAccountBalanceController', ['$scope', '$http', function($scope, $http) {
+        .controller('CurrentAccountBalanceController', ['$scope', '$http', '$filter', function($scope, $http, $filter) {
             $scope.balances = [];
             $http.get('/api/account/currentbalance').then(function (res) {
-                $scope.balances = res.data;
+                $scope.balances = $filter('filter')(res.data, function (value, index, array) {
+                    return value.account.fullname.indexOf(':Funds') < 0 
+                        && value.account.fullname.indexOf(':Spending') < 0
+                        && value.account.fullname.indexOf('Total ') < 0;
+                });
             });
         }])
         .controller('CategoryBalanceController', ['$scope', '$http', function($scope, $http) {
