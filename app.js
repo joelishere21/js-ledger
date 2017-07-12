@@ -1,34 +1,11 @@
-var Ledger = require('ledger-cli').Ledger;
-var logger = require('morgan');
+var app = require('./server/setup');
 
-var express = require("express");
-var path = require('path');
-var bodyParser = require('body-parser');
+//console.log(__dirname);
 
-var Ledger = require('ledger-cli').Ledger;
-var ledger = new Ledger({ file: 'ledger.dat' });
 
-var autoTransRoutes = require("./routes/auto-trans-routes");
-
-var app = express();
-
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('/api/accounts', function (req, res) {
-	var results = [];
-	ledger.accounts().on('data', function(account) {
-		results.push(account);
-  })
-  .once('end', function () {
-	  res.json(results);
-  });
-});
 app.get('/api/assets', function (req, res) {
 	var results = [];
-	ledger.accounts().on('data', function(account) {
+	req.ledger.accounts().on('data', function(account) {
 		if (account.indexOf('Assets') == 0)
 			results.push(account);
   })
@@ -38,7 +15,7 @@ app.get('/api/assets', function (req, res) {
 });
 app.get('/api/expense', function (req, res) {
 	var results = [];
-	ledger.accounts().on('data', function(account) {
+	req.ledger.accounts().on('data', function(account) {
 		if (account.indexOf('Expense') == 0)
 			results.push(account);
   })
@@ -48,7 +25,7 @@ app.get('/api/expense', function (req, res) {
 });
 app.get('/api/liabilities', function (req, res) {
 	var results = [];
-	ledger.accounts().on('data', function(account) {
+	req.ledger.accounts().on('data', function(account) {
 		if (account.indexOf('Liabilities') == 0)
 			results.push(account);
   })
@@ -58,7 +35,7 @@ app.get('/api/liabilities', function (req, res) {
 });
 app.get('/api/assetsandliabilities', function (req, res) {
 	var results = [];
-	ledger.accounts().on('data', function(account) {
+	req.ledger.accounts().on('data', function(account) {
 		if (account.indexOf('Assets') == 0 || account.indexOf('Liabilities') == 0)
 			results.push(account);
   })
@@ -68,7 +45,7 @@ app.get('/api/assetsandliabilities', function (req, res) {
 });
 app.get('/api/balance', function (req, res) {
 	var results = [];
-	ledger.balance().on('data', function(entry) {
+	req.ledger.balance().on('data', function(entry) {
     	// JSON object for each entry 
 		results.push(entry);
 	})
@@ -78,7 +55,7 @@ app.get('/api/balance', function (req, res) {
 });
 app.get('/api/account/balance', function (req, res) {
 	var results = [];
-	ledger.balance().on('data', function(entry) {
+	req.ledger.balance().on('data', function(entry) {
     	// JSON object for each entry 
 		if (entry.account.fullname == 'Assets') entry.account.fullname = 'Total Assets';
 		if (entry.account.fullname == 'Liabilities') entry.account.fullname = 'Total Liabilities';
@@ -91,7 +68,7 @@ app.get('/api/account/balance', function (req, res) {
 });
 app.get('/api/account/currentbalance', function (req, res) {
 	var results = [];
-	ledger.currentbalance().on('data', function(entry) {
+	req.ledger.currentbalance().on('data', function(entry) {
     	// JSON object for each entry 
 		if (entry.account.fullname == 'Assets') entry.account.fullname = 'Total Assets';
 		if (entry.account.fullname == 'Liabilities') entry.account.fullname = 'Total Liabilities';
@@ -104,7 +81,7 @@ app.get('/api/account/currentbalance', function (req, res) {
 });
 app.get('/api/fund/balance', function (req, res) {
 	var results = [];
-	ledger.balance().on('data', function(entry) {
+	req.ledger.balance().on('data', function(entry) {
     	// JSON object for each entry 
 		if (entry.account.fullname.indexOf('Assets:Funds') == 0)
 			results.push(entry);
@@ -115,7 +92,7 @@ app.get('/api/fund/balance', function (req, res) {
 });
 app.get('/api/category/balance', function (req, res) {
 	var results = [];
-	ledger.balance().on('data', function(entry) {
+	req.ledger.balance().on('data', function(entry) {
     	// JSON object for each entry 
 		if (entry.account.fullname.indexOf('Expense') == 0)
 			results.push(entry);
@@ -126,7 +103,7 @@ app.get('/api/category/balance', function (req, res) {
 });
 app.get('/api/register', function (req, res) {
 	var results = [];
-	ledger.register().on('data', function(entry) {
+	req.ledger.register().on('data', function(entry) {
     	// JSON object for each entry 
 		results.push(entry);
 	})
@@ -217,8 +194,6 @@ app.post('/api/transaction', function (req, res) {
 	});
 
 });
-
-autoTransRoutes(app);
 
 // Always send index.html because this is a SPA. This helps with Angular Routing.
 app.use(function(req, res) {
