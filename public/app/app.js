@@ -79,6 +79,16 @@
             $scope.accountBalances = [];
             $scope.envelopeBalances = [];
             $scope.liabilityBalances = [];
+            $scope.bankBalances = [];
+
+            $http.get('/api/account/currentbalance').then(function (res) {
+                $scope.bankBalances = $filter('filter')(res.data, function (value, index, array) {
+                    return value.account.fullname.indexOf(':Funds') < 0 
+                        && value.account.fullname.indexOf(':Spending') < 0
+                        && value.account.fullname.indexOf('Total ') < 0
+                        && value.account.fullname.indexOf('Liabilities:') < 0;
+                });
+            });
 
             $http.get('/api/account/balance').then(function (res) {
                 $scope.accountBalances = $filter('filter')(res.data, function (value, index, array) {
@@ -90,6 +100,7 @@
                     return value.account.fullname.indexOf('Liabilities:') >= 0 && value.account.fullname.indexOf('Liabilities:Funds') < 0;
                 });
             });
+
             $http.get('/api/fund/balance').then(function (res) {
                 $scope.envelopeBalances = res.data;
             });

@@ -10,29 +10,6 @@
 
 <div class="row">
     <div class="col-md-4">
-        <div class="panel panel-success">
-            <div class="panel-heading">
-                    <h3 class="panel-title">Account Balances</h3>
-            </div>
-            <div class="panel-body">
-                <table class="table table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Balance</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="bal in accountBalances">
-                            <td>{{ bal.account.fullname }}</td>
-                            <td>{{ bal.total.formatted }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
         <div class="panel panel-info">
             <div class="panel-heading">
                     <h3 class="panel-title">Envelope Balances</h3>
@@ -55,6 +32,58 @@
             </div>
         </div>
     </div>
+    
+    <div class="col-md-4">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                    <h3 class="panel-title">Account Balances</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="bal in accountBalances">
+                            <td>{{ bal.account.fullname }}</td>
+                            <td>{{ bal.total.formatted }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                    <h3 class="panel-title">Bank Balances</h3>
+            </div>
+            <div class="panel-body">
+                    <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="bal in bankBalances">
+                            <td>{{ bal.account.fullname }}</td>
+                            <td>{{ bal.total.formatted }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<div class="row">
     <div class="col-md-4">
         <div class="panel panel-danger">
             <div class="panel-heading">
