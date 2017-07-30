@@ -179,6 +179,12 @@
                 $("#transactionDate").datepicker();
                 $("#transactionDate").datepicker( "option", "showAnim", "slideDown" );
                 $("#transactionDate").datepicker( "option", "dateFormat", "yy/mm/dd" );
+                var now = new Date();
+                $scope.transaction.Date = now.getFullYear() + '/' + 
+                                        ((now.getMonth()+1) < 10 ? '0' + (now.getMonth()+1) : (now.getMonth()+1)) + '/' + 
+                                        (now.getDate() < 10 ? '0' + now.getDate() : now.getDate());
+                $scope.transaction.Cleared = true;
+                $scope.transaction.Account = 'Assets:Checking:WF';
             };
 
             var loadDDL = function () {
